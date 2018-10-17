@@ -1,31 +1,39 @@
 package eu.sig.training.ch02;
 
-public class BoardFactory {
-    // tag::createBoard[]
-    public Board createBoard(Square[][] grid) {
+
+public class BoardCreator {
+    private Square[][] grid;
+    private Board board;
+    private int width;
+    private int height;
+
+    BoardCreator(Square[][] grid) {
         assert grid != null;
+        this.grid = grid;
+        this.board = new board(grid);
+        this.width = board.getWidth();
+        this.height= board.getHeight();
 
-        Board board = new Board(grid);
-
-        int width = board.getWidth();
-        int height = board.getHeight();
+    }
+    Board create() {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 Square square = grid[x][y];
                 for (Direction dir : Direction.values()) {
-                    int dirX = (width + x + dir.getDeltaX()) % width;
+                   setLink(square, dir, x ,y)
+            }
+        }
+    }
+    return this.board;
+}
+private void setLink(Square square, Direction dir, int x, int y){
+    int dirX = (width + x + dir.getDeltaX()) % width;
                     int dirY = (height + y + dir.getDeltaY()) % height;
                     Square neighbour = grid[dirX][dirY];
                     square.link(neighbour, dir);
-                }
-            }
-        }
-
-        return board;
-    }
-    // end::createBoard[]
 }
 
+}
 class Board {
     @SuppressWarnings("unused")
     public Board(Square[][] grid) {}
